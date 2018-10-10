@@ -4,10 +4,8 @@
 set_time_limit(0);
 ignore_user_abort(1);
 error_reporting(E_ALL);
-ini_set('display_errors', 'on');
 
 // Setup
-//require_once("../lockfile.php");
 require_once('../vendor/autoload.php');
 require_once("../creds.php");
 require_once("../extra-funcs.php");
@@ -17,14 +15,16 @@ require_once("../extra-funcs.php");
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 $chatID = $update["message"]["chat"]["id"];
+$username = $update["message"]["from"]["username"];
 
 
 use Telegram\Bot\Api;
 $telegram = new Api($sighthoundBotKey);
+
 /*
 $response = $telegram->sendMessage([
   'chat_id' => $chatID,
-  'text' => $content
+  'text' => json_encode($update)
 ]);
 */
 
@@ -49,7 +49,8 @@ if (!empty($fileID))
 $filePath = ("https://api.telegram.org/file/bot" . $sighthoundBotKey .'/'. $fileDetails['file_path']);
 
 $file=file_get_contents($filePath);
-$chatFolder = "./" . $chatID . "/";
+
+$chatFolder = "./" . $chatID . "-" . $username . "/";
 if (!file_exists($chatFolder)) {
     mkdir($chatFolder, 0777, true);
 }
