@@ -49,7 +49,12 @@ if (!empty($fileID))
 $filePath = ("https://api.telegram.org/file/bot" . $sighthoundBotKey .'/'. $fileDetails['file_path']);
 
 $file=file_get_contents($filePath);
-file_put_contents($chatID . ".jpg", $file);
+$chatFolder = "./" . $chatID . "/";
+if (!file_exists($chatFolder)) {
+    mkdir($chatFolder, 0777, true);
+}
+$imageName = time();
+file_put_contents($chatFolder . $imageName . ".jpg", $file);
 
 
 // Submit image for processing
@@ -88,7 +93,7 @@ $response = $telegram->sendMessage([
 */
 
 //Load image for editing
-$image=imagecreatefromjpeg($chatID . ".jpg");
+$image=imagecreatefromjpeg($chatFolder . $imageName . ".jpg");
 
 $message = "";
 $i=1;
