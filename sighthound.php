@@ -128,7 +128,7 @@ foreach ($json->objects as $segment) {
 	//Draw box
 	imagerectangle($image, $face->x, $face->y, $face->x + $face->width, $face->y + $face->height, $color);
 	//Draw text overlay
-	imagettftext($image, $fontSize, 0, $face->x, $face->y - ($fontSize*3+3), $color, "FSEX300.ttf",	$thisMessage);
+	imagettftext($image, $fontSize, 0, $face->x, $face->y - ($fontSize*3+3), $color, "../FSEX300.ttf",	$thisMessage);
 
   $message.=$thisMessage;
 }
